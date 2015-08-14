@@ -10,3 +10,4 @@ Kubernets
    :maxdepth: 2
 
    k8s_scratch
+   k8s_network

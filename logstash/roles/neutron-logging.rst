@@ -13,19 +13,21 @@ Ansible-core-module: ``lineinfile``
 Role Variables
 --------------
 
-Default vars:
-  neutron_conf: "/etc/neutron/neutron.conf"
-  neutron_facility:
-    LOG_LOCAL2: local2
-  port: "10514"
-  host: "127.0.0.1"
-  log_server: "{{host}}:{{port}}"
-  protocal: "tcp"
-  lines:
-    - {regx: "^verbose=", line: "verbose=False" }
-    - {regx: "^debug=", line: "debug=False" }
-    - {regx: "^use_syslog=", line: "use_syslog=True" }
-    - {regx: "^syslog_log_facility=", line: "syslog_log_facility=LOG_LOCAL2" }
+::
+
+  Default vars:
+    neutron_conf: "/etc/neutron/neutron.conf"
+    neutron_facility:
+      LOG_LOCAL2: local2
+    port: "10514"
+    host: "127.0.0.1"
+    log_server: "{{host}}:{{port}}"
+    protocal: "tcp"
+    lines:
+      - {regx: "^verbose=", line: "verbose=False" }
+      - {regx: "^debug=", line: "debug=False" }
+      - {regx: "^use_syslog=", line: "use_syslog=True" }
+      - {regx: "^syslog_log_facility=", line: "syslog_log_facility=LOG_LOCAL2" }
 
 Dependencies
 ------------
