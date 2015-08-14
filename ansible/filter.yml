@@ -1,0 +1,74 @@
+---
+- hosts: localhost
+  remote_user: root
+  gather_facts: false
+  vars:
+    l: ['a','b','c']
+    n: [37,91,3,52,7,9,7,23,9]
+    m: [91,52,7,23,9,2,4]
+    digit: 2
+    secret: 'banana'
+    addr: '9.9.0.1/24'
+    word: 'A1122ED'
+    content: 'multimedia'
+  tasks:
+      - name: random filter in list l
+        debug: msg="{{l|random}}"
+      - name: random filter from 30 to 80 with steps of 3
+        debug: msg="{{80|random(start=30,step=3)}}"
+      - name: set theory filter
+        debug: msg="{{n|unique}}"
+      - name: list filter
+        debug: msg="{{n|max}}"
+      - name: set theory filter
+        debug: msg="{{n|difference(m)}}"
+      - name: shuffle a list
+        debug: msg="{{l|shuffle}}"
+      - name: shuffle a list again
+        debug: msg="{{l|shuffle}}"
+      - name: if it is a number
+        debug: msg="{{digit}} is a number {{digit|isnan}}"
+      - name: logarithm
+        debug: msg="{{digit|log}}"
+      - name: power
+        debug: msg="{{digit|pow(3)}}"
+      - name: root
+        debug: msg="{{digit|root(2)}}"
+      - name:  ipaddr
+        debug: msg="{{addr|ipaddr}}"
+      - name:  ipaddr 
+        debug: msg="{{addr|ipaddr('address')}}"
+      - name:  hash sha1 string
+        debug: msg="{{secret|hash('sha1')}}"
+      - name:  hash md5 string
+        debug: msg="{{secret|hash('md5')}}"
+      - name:  hash checksum string
+        debug: msg="{{secret|checksum}}"
+      - name:  To use one value on true and another on false
+        debug: msg="{{ (digit==2)|ternary('two','not two')}}"
+      - name:  a string seprated with -
+        debug: msg="{{l|join('-')}}"
+      - name:  basename
+        debug: msg="{{'/usr/bin/python'|basename}}"
+      - name:  dirname
+        debug: msg="{{'/usr/bin/python'|dirname }}"
+      - name:  user expand
+        debug: msg="{{'~/Download'|expanduser}}"
+      - name:  encode base64
+        debug: msg="{{'HelloWorld!'|b64encode}}"
+      - name:  decode base64
+        debug: msg="{{'SGVsbG9Xb3JsZCE='|b64decode}}"
+      - name:  generate uuid 
+        debug: msg="{{'hostname'|to_uuid}}"
+      - name:  cast values
+        debug: msg="{{ 'yes'|bool}}"
+      - name:  match filter
+        debug: msg="{{ 'A1122ED'|match('^[A-Z]\d{4}[A-Z]{2}')}}"
+        when: word|match('^[A-Z]\d{4}[A-Z]{2}')
+      - name:  search filter
+        debug: msg="{{ 'A1122ED'|match('^[A-Z]\d{4}[A-Z]{2}')}}"
+        when: word|match('^[A-Z]')
+      - name:  regex replace -- result should be media
+        debug: msg="{{content|regex_replace('^m.*?i(.*)$','\\1')}}"
+      - name:  regex replace -- result should be multiple
+        debug: msg="{{content|regex_replace('^(m.*?i)(.*)$','\\1ple')}}"

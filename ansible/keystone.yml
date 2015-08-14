@@ -1,0 +1,13 @@
+---
+- hosts: keystone
+  gather_facts: True
+  remote_user: root
+
+  tasks:
+    - name: install keystone
+      apt: pkg=keystone state=present
+      when: ansible_os_family == "Debian"
+
+    - name: install keystone
+      yum: name=keystone state=present
+      when: ansible_os_family == "RedHat"

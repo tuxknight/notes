@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  remote_user: susu
+  gather_facts: true
+  tasks:
+    - name: failed with return code
+      command: touch /var/log/e.log
+      register: r
+      ignore_errors: true
+      #failed_when: "'susu' in r.stdout"
+      changed_when: "r.rc==1"
+    - name: loop over hosts in a group
+      template: src=a.j2 dest=~/file.f

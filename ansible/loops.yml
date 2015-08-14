@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  remote_user: root
+  gather_facts: true
+  vars:
+    users:
+      alice:
+        name: Alice Brown
+        tele: 12121212121
+      bob:
+        name: Bob Brown
+        tele: 9494949949
+
+  tasks:
+      #    - name: loop with hashed
+      #      debug: msg="User {{item.key}} is {{item.value.name}} {{item.value.tele}}"
+      #      with_dict: users
+      #
+      #    - name: nested loops
+      #      debug: msg="{{item[0]}} {{item[1]}}"
+      #      with_nested:
+      #        - ["outerloop1", "outerloop2"]
+      #        - ["innerloop1", "innerloop2", "innerloop3"]
+      #
+      #    - name: file globs
+      #      copy: src={{item}} dest=/tmp/
+      #      with_fileglob:
+      #        - /etc/default/a*
+      #    - name: sequence loops
+      #      file: dest=/tmp/loops.{{item}} state=touch
+      #      with_sequence: start=4 end=23 stride=3
+      #      register: loop
+      #
+      #    - name: save loop register
+      #      debug: msg="{{loop}}"
+      - name: file globs
+        debug: msg="{{item}}"
+        with_fileglob:
+          - /home/susu/.ssh/*

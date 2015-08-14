@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  name: install httpd
+  gather_facts: true
+
+  tasks: 
+    - name: install httpd
+      yum: name={{ item }} state=installed
+      with_items:
+        - httpd
+        - httpd-devel
+      when: ansible_os_family == "Redhat"
+      notify:
+        - restart apache2
+
+    - name: install httpd
+      apt: name={{ item }} state=installed
+      with_items:
+        - apache2
+        - apache2-dev
+      when: ansible_os_family == "Debian"
+      notify:
+        - restart apache2
+
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
+      when: ansible_os_family == "Debian"
+
+    - name: restart apache2
+      service: name=apache2 state=restarted
+      when: ansible_os_family == "Debian"

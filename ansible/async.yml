@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  remote_user: root
+  tasks:
+   - name: run a command that costs a very long time
+   #command: /bin/sleep 7
+     apt: name=docker.io state=installed
+     async: 4000
+     poll: 0
+     register: result
+
+   - name: result
+     debug: msg={{result.ansible_job_id}}
+
+   - name: jobid
+     async_status: jid={{result.ansible_job_id}}
+     register: jobresult
+     until: jobresult.finished
+     retries: 30
+     delay: 2
+
+   - name: async mesg
+     debug: msg={{jobresult.finished}}

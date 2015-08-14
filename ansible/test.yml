@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  remote_user: root
+  gather_facts: true
+# vars:
+#   mysql_port: "3306"
+
+  tasks:
+    - name: wait for port mysql_port
+      wait_for: port="{{mysql_port|default(3306)}}" state=present  timeout=3
+      register: wait
+      ignore_errors: true
+
+    - fail: msg="Port Start Failed"
+      when: wait|failed
+
+#    - debug: msg="{{wait}}"
+
+    - name: file state
+      stat: path=/etc/ansible/ansible.cfg
+      register: f
+      ignore_errors: true
+
+    - assert:
+        that:
+          - f.stat.exists
+    - debug: msg="FILE CHANGED"
+      when: f|changed
